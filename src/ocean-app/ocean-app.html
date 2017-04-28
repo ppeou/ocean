@@ -1,0 +1,31 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<!--<link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">-->
+<!--<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">-->
+
+<dom-module id="ocean-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    /** @polymerElement */
+    class OceanApp extends Polymer.Element {
+      static get is() { return 'ocean-app'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'ocean-app'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(OceanApp.is, OceanApp);
+  </script>
+</dom-module>

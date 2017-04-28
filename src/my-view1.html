@@ -1,0 +1,64 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-error.html">
+<link rel="import" href="components/entitlement-ratio-input.html">
+
+<dom-module id="my-view1">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 10px;
+            }
+        </style>
+        <div class="card">
+            <div class="circle">1</div>
+            <h1>View One</h1>
+            <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
+            <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+            <paper-input-container always-float-label auto-validate attr-for-value="value">
+                <label>Social Security Number</label>
+                <entitlement-ratio-input class="paper-input-input" value="{{dealInfo.entitlementRatio}}"></entitlement-ratio-input>
+                <paper-input-error>SSN invalid!</paper-input-error>
+            </paper-input-container>
+            <paper-button on-tap="fnA" raised class="indigo">Submit</paper-button>
+            <paper-button on-tap="fnB" raised class="indigo">Change</paper-button>
+        </div>
+    </template>
+    <script>
+        var idx = 0;
+        class MyView1 extends Polymer.Element {
+            static get is() { return 'my-view1'; }
+            static get properties() {
+                return {
+                    dealInfo: {
+                        type: Object,
+                        value: {
+                            entitlementRatio: '1:10'
+                        }
+                    }
+                };
+            }
+            fnA() {
+                console.log(this.dealInfo.entitlementRatio);
+            }
+            fnB() {
+                var tx = (++idx) + ':' + (++idx);
+                console.log(tx);
+                this.set('dealInfo.entitlementRatio', tx);
+            }
+        }
+
+        window.customElements.define(MyView1.is, MyView1);
+    </script>
+</dom-module>

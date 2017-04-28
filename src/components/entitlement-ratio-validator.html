@@ -1,0 +1,34 @@
+﻿<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-validator-behavior/iron-validator-behavior.html">
+
+<script>
+
+    /*
+    class EntitlementRatioValidator extends Polymer.mixinBehaviors([Polymer.IronValidatorBehavior], Polymer.Element) {
+        static get is() { return 'entitlement-ratio-validator'; }
+        validate (value) {
+            console.log('entitlement-ratio-validator', value);
+            return value === '1:2';
+            //return !value || value.match(/^[0-9]{0,3}-[0-9]{0,2}-[0-9]{0,4}$/);
+        }
+
+    }
+    window.customElements.define(EntitlementRatioValidator.is, EntitlementRatioValidator);*/
+    
+    Polymer({
+        is: 'entitlement-ratio-validator',
+
+        behaviors: [
+            Polymer.IronValidatorBehavior
+        ],
+
+        validate: function (value) {
+            console.log('entitlement-ratio-validator', value);
+            //return !value || value.match(/^[0-9]{0,3}-[0-9]{0,2}-[0-9]{0,4}$/);
+            return value === '1:2';
+        },
+        ready: function () {
+            this.$.valid.validate = this.validate.bind(this);
+        }
+    });
+</script>

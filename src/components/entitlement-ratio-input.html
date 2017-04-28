@@ -1,0 +1,73 @@
+﻿<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="entitlement-ratio-validator.html">
+
+<dom-module id="entitlement-ratio-input">
+    <template>
+        <style>
+            :host {
+                display: inline-block;
+            }
+
+            :host([hidden]) {
+                display: none !important;
+            }
+
+            input {
+                font: inherit;
+                outline: none;
+                box-shadow: none;
+                border: none;
+                width: auto;
+                text-align: center;
+                border: solid 1px red;
+            }
+
+            .container {
+                @apply --layout-horizontal;
+            }
+        </style>
+        <entitlement-ratio-validator></entitlement-ratio-validator>
+        <div class="container">
+            <iron-input bind-value="{{_input1}}" aria-label="First 3 digits of social security number">
+                <input maxlength="3" size="3">
+            </iron-input>
+            -
+            <iron-input bind-value="{{_input2}}" aria-label="Middle 2 digits of social security number">
+                <input maxlength="2" size="2">
+            </iron-input>
+        </div>
+    </template>
+    <script>
+
+        class EntitlementRatioInput extends Polymer.mixinBehaviors([Polymer.IronValidatorBehavior], Polymer.Element) {
+            static get is() { return 'entitlement-ratio-input'; }
+            static get properties() {
+                return {
+                    value: {
+                        notify: true,
+                        type: String,
+                        observer: 'onParentValueChange'
+                    },
+                    _input1: { type: Number },
+                    _input2: { type: Number }
+
+                };
+            }
+            static get observers() {
+                return ['onInputValueChanged(_input1, _input2)']
+            }
+            onInputValueChanged(_input1, _input2) {
+                this.value = _input1 + ':' + _input2;
+            }
+            onParentValueChange(newValue, oldValue) {
+                var arr = newValue.split(':');
+                this._input1 = arr[0] || '';
+                this._input2 = arr[1] || '';
+            }
+        }
+        window.customElements.define(EntitlementRatioInput.is, EntitlementRatioInput);
+
+    </script>
+</dom-module>
