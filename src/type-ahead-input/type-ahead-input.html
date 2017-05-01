@@ -1,0 +1,43 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../shared-styles.html">
+<link rel="import" href="../../../bower_components/paper-typeahead-input/paper-typeahead-input.html">
+
+
+<dom-module id="view-type-ahead-input">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 10px;
+            }
+        </style>
+        <div class="card">
+            <h1>
+                Type Ahead Input
+            </h1>
+
+            <paper-typeahead-input label="US states" 
+                                   local-candidates="{{states}}"
+                                   placeholder="Please enter value" 
+                                   max-suggestions="4">
+            </paper-typeahead-input>
+        </div>
+    </template>
+    <script>
+        var idx = 0;
+        class xElement extends Polymer.Element {
+            static get is() { return 'view-type-ahead-input'; }
+            static get properties() {
+                return {
+                    items: {
+                        type: Array,
+                        value: [{ id: 1, name: 'AAAA' }, { id: 2, name: 'BBBB' },
+                        { id: 3, name: 'CCCC' }, { id: 4, name: 'DDDD' }, { id: 5, name: 'EEEE' }]
+                    }
+                };
+            }
+        }
+
+        window.customElements.define(xElement.is, xElement);
+    </script>
+</dom-module>
