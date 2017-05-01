@@ -24,20 +24,25 @@
             <iron-collapse id="collapse">
                 <div>Content goes here...</div>
             </iron-collapse>
-            <br/>
+            <br />
             <br />
 
-            <template is="dom-repeat" items="[[employees]]">
-                <button on-click="toggleA" data-idx$="[[item.id]]">toggle collapse</button>
-                <iron-collapse id="collapse-[[item.id]]">
-                    <div>Content goes here...[[item.first]] - [[item.last]]</div>
+            <template is="dom-repeat" items="{{employees}}" as="item" indexAs="index">
+
+                <button class="heading" ident$="subitem[[index]]" on-click="toggleA">
+                    <iron-icon icon="expand-more"></iron-icon>
+                    <span>[[item.first]]</span>
+                </button>
+                <iron-collapse ident$="subitem[[index]]">
+                    <div class="content">
+                        Hello world [[item.first]] - [[item.last]]
+                    </div>
                 </iron-collapse>
             </template>
-
-
         </div>
     </template>
     <script>
+        //https://gist.github.com/vtellier/c2341934ccdd47d70676b3a8e696f40c
         class MyView3 extends Polymer.Element {
             static get is() { return 'my-view3'; }
             static get properties() {
@@ -50,16 +55,14 @@
                     }
                 };
             }
-            toggleA(e) {
-                console.log(e);
-                var idx = e.path[0].dataset.idx;
-                var elm = document.getElementById('#collapse-' + idx);
-                if (elm === null) {
-                    console.warn('can\'t find element via document.getElementById');
-                    elm = Polymer.dom(this.root).querySelector('#collapse-' + idx);
-                }         
-                elm.toggle();
-
+            toggleA(event) {
+                var id = event.currentTarget.getAttribute('ident');
+                var collapse = this.$$ ? this.$$('iron-collapse[ident="' + id + '"]') : null;
+                if (collapse == null) {
+                    console.warn('cant use this.$$');
+                    collapse = this.root.querySelector('iron-collapse[ident="' + id + '"]');
+                }
+                collapse.toggle();
             }
             toggle() {
                 this.$.collapse.toggle();
