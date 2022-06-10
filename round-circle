@@ -1,0 +1,221 @@
+<div className="circle-progress-bar">
+    <div className={`circle-progress-bar-box progress-${value}`}>
+      <div className="track">
+        <div className="left-side half-circle"></div>
+        <div className="right-side half-circle"></div>
+      </div>
+      <div className="rail"></div>
+    </div>
+    <div className="is-label-holder">
+      <div className="is-label-box">
+        <div className="is-pct-label">{value}%</div>
+        <div className="is-completed-label">{label}</div>
+      </div>
+    </div>
+  </div>
+
+@use '../../Footer/styles/colors' as clr;
+@use '../../Footer/styles/screen-size' as ss;
+
+.in-progress-course-sales-pro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: clr.$x101010Clr;
+  border: 1px solid clr.$xd4d4d4Clr;
+  background-color: clr.$xWhiteClr;
+  .circle-progress-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .is-top {
+    text-align: center;
+    .is-title {
+      font-weight: bold;
+    }
+    .is-sub-title {
+      font-weight: bold;
+    }
+  }
+  .is-middle {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: space-around;
+    align-items: center;
+
+    .is-pct-label {
+      font-weight: bold;
+    }
+    .is-completed-label {
+      margin-top: 5px;
+      font-weight: bold;
+    }
+  }
+  .is-bottom {
+    margin-top: 36px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1.4px;
+    line-height: 23px;
+  }
+}
+
+
+@media (min-width: ss.$layout-breakpoint-desktop) {
+  .in-progress-course-sales-pro {
+    max-width: 600px;
+    margin: 40px 60px 50px;
+    padding: 30px 0;
+    .is-top {
+      .is-title {
+        font-size: 35px; letter-spacing: 3.5px; line-height: 27px;
+      }
+      .is-sub-title {
+        font-size: 16px; letter-spacing: 1.6px; line-height: 33px;
+      }
+    }
+    .is-middle {
+      .is-badge-img {margin-left: 58px; width: 90px;}
+    }
+  }
+}
+@media (max-width: ss.$layout-breakpoint-desktop) {
+  .in-progress-course-sales-pro {
+    min-width: 358px;
+    margin: 25px 16px;
+    padding: 30px 28px 37px;
+
+    .is-top {
+      .is-title {
+        font-size: 20px; letter-spacing: 2px; line-height: 27px;
+      }
+      .is-sub-title {
+        font-size: 13px; letter-spacing: 1.3px; line-height: 27px;
+      }
+    }
+    .is-middle {
+      .is-badge-img {margin-left: 42px; width: 71px;}
+      .is-pct-label {
+        font-size: 35px; letter-spacing: 3.5px; line-height: 27px;
+      }
+      .is-completed-label {
+        margin-top: 5px;
+        font-size: 13px; letter-spacing: 1.3px; line-height: 27px;
+      }
+    }
+    .is-bottom {
+      margin-top: 46px;
+    }
+  }
+}
+
+@mixin setSize($width, $height) {
+  height: $height;
+  width: $width;
+}
+
+@mixin buildProgressBar($progress, $color) {
+  .track {
+    .half-circle {
+      border-color: $color;
+    }
+
+    .left-side {
+      transform: rotate($progress * 3.6deg);
+    }
+
+    @if $progress <= 50 {
+      .right-side {
+        display: none;
+      }
+    } @else {
+      clip: rect(auto, auto, auto, auto);
+
+      .right-side {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+@mixin makeCircle($circleSize, $borderSize, $bgClr, $railClr, $trackClr) {
+  .circle-progress-bar {
+    @include setSize($circleSize, $circleSize);
+
+    .circle-progress-bar-box {
+      @include setSize($circleSize, $circleSize);
+      position: relative;
+
+      .track {
+        @include setSize(100%, 100%);
+        clip: rect(0, $circleSize, $circleSize, $circleSize / 2);
+        left: 0;
+        position: absolute;
+        top: 0;
+
+        .half-circle {
+          @include setSize(100%, 100%);
+          border: $borderSize solid $railClr;
+          border-radius: 50%;
+          clip: rect(0, $circleSize / 2, $circleSize, 0);
+          left: 0;
+          position: absolute;
+          top: 0;
+        }
+      }
+
+      .rail {
+        @include setSize(100%, 100%);
+        border: $borderSize solid $railClr;
+        border-radius: 50%;
+      }
+
+      @for $i from 0 through 100 {
+        &.progress-#{$i} {
+          @include buildProgressBar($i, $trackClr);
+        }
+      }
+    }
+  }
+}
+
+.circle-progress-bar {
+  position: relative;
+  .circle-progress-bar-box {
+    transform: rotate(90deg);
+  }
+  .is-label-holder {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    .is-label-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      flex-direction: column;
+    }
+  }
+
+}
+
+$railBorderClr: #d5d5d5;
+$trackBorderClr: #000001;
+
+@media (min-width: ss.$layout-breakpoint-desktop) {
+  @include makeCircle(220px, 16px, #fff, $railBorderClr, $trackBorderClr);
+}
+
+@media (max-width: ss.$layout-breakpoint-desktop) {
+  @include makeCircle(181px, 13px, #fff, $railBorderClr, $trackBorderClr);
+}
